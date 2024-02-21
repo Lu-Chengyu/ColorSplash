@@ -15,10 +15,8 @@ public class DeathBarrier : MonoBehaviour
 
     void Update()
     {
-        if (playerInside && playerColorChange != null && playerColorChange.GetColor() == pitColor)
+        if (playerInside && playerColorChange != null && playerColorChange.GetColor() != pitColor)
         {
-            // Decrease counter if player's color matches pit's color
-            gameManager.UpdateCounter(playerColorChange.GetColorName(), -1);
             playerColorChange.gameObject.SetActive(false); // Turn off the player
             gameManager.DestroyGameInstance(); // Destroy the game instance
         }
