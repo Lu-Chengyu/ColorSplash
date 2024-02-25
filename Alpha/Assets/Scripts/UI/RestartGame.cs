@@ -7,6 +7,7 @@ public class RestartGame : MonoBehaviour
 {
     public void Restart()
     {
+        Debug.Log("Restart trigger");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
     }

@@ -11,7 +11,7 @@ public class LevelMenuController : MonoBehaviour
     
     void Start()
     {
-        int currentLevel = PlayerPrefs.GetInt("currentLevel", 1);;
+        int currentLevel = PlayerPrefs.GetInt("maxLevel", 1);;
 
         // Assuming levelButtons are ordered by level index
         for (int i = 0; i < levelButtons.Length; i++)

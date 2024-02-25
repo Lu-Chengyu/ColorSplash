@@ -20,7 +20,7 @@ public class LevelUIController : MonoBehaviour
     public void NextLevel()
     {
         int currentLevel = PlayerPrefs.GetInt("currentLevel", 1);
-        SceneManager.LoadScene("1-" + currentLevel);
+        SceneManager.LoadScene("1-" + (currentLevel + 1));
     }
     
     public void BackToMainMenu()

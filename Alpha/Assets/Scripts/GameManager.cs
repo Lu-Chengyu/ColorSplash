@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public Text redCounterText;
     public Text greenCounterText;
     public Text blueCounterText;
+    public int currentLevel;
+    public int maxLevel;
 
     private int redCount;
     private int greenCount;
@@ -23,6 +25,12 @@ public class GameManager : MonoBehaviour
         redCount = 1;
         greenCount = 1;
         blueCount = 1;
+
+        PlayerPrefs.SetInt("currentLevel", currentLevel);
+        PlayerPrefs.Save();
+
+        Time.timeScale = 1f;
+
         UpdateCounters();
 
     }
@@ -91,8 +99,13 @@ public class GameManager : MonoBehaviour
     public void LevelClear()
     {
         Application.Quit();
-        int currentLevel = PlayerPrefs.GetInt("currentLevel", 1);
-        PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
+        int currentLevel = PlayerPrefs.GetInt("maxLevel", 1);
+        if(currentLevel == maxLevel)
+        {
+            Debug.Log("Reached maxlevel");
+            return;
+        }
+        PlayerPrefs.SetInt("maxLevel", currentLevel + 1);
         PlayerPrefs.Save();
         FindObjectOfType<EndGame>().End(true);
     }

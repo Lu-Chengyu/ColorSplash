@@ -16221,6 +16221,8 @@ MonoBehaviour:
   redCounterText: {fileID: 20642756}
   greenCounterText: {fileID: 1645979662}
   blueCounterText: {fileID: 1223794941}
+  currentLevel: 2
+  maxLevel: 2
 --- !u!4 &1964257471
 Transform:
   m_ObjectHideFlags: 0
