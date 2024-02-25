@@ -24,6 +24,15 @@ public class GameManager : MonoBehaviour
         greenCount = 1;
         blueCount = 1;
         UpdateCounters();
+
+    }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            FindObjectOfType<PauseGame>().TogglePause();
+        }
     }
 
     public bool IsColorAvailable(Color color)
@@ -75,6 +84,16 @@ public class GameManager : MonoBehaviour
     public void DestroyGameInstance()
     {
         Application.Quit();
+        FindObjectOfType<EndGame>().End(false);
+    }
 
+    //Call this method when player reaches the end of the level
+    public void LevelClear()
+    {
+        Application.Quit();
+        int currentLevel = PlayerPrefs.GetInt("currentLevel", 1);
+        PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
+        PlayerPrefs.Save();
+        FindObjectOfType<EndGame>().End(true);
     }
 }
