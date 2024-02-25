@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public LayerMask groundLayer;
+    
     public Transform groundCheck;
     public GameObject redCounterText;
     public GameObject greenCounterText;
@@ -36,6 +37,11 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
+        if (isGrounded && Input.GetKeyDown(KeyCode.E)) // Assuming 'E' is the key to interact
+        {
+            PushBox();
+        }
+        
         if (canChangeColor)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -51,6 +57,7 @@ public class PlayerController : MonoBehaviour
                 ChangeColor(Color.blue);
             }
         }
+        
     }
 
     void ChangeColor(Color color)
@@ -92,6 +99,10 @@ public class PlayerController : MonoBehaviour
                 // Handle collision with obstacle (e.g., restart game)
             }
         }
+        else if (other.CompareTag("Box"))
+        {
+            PushBox();
+        }
         else if (other.CompareTag("Pit"))
         {
             if (other.GetComponent<Pit>().color == currentColor)
@@ -117,6 +128,23 @@ public class PlayerController : MonoBehaviour
         }
         UpdateCounters();
     }
+    
+    void PushBox()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, 1f);
+        if (hit.collider != null && hit.collider.CompareTag("Box"))
+        {
+            Box box = hit.collider.GetComponent<Box>();
+            if (box.CanInteract(currentColor))
+            {
+                box.GetComponent<FixedJoint2D>().enabled = true;
+                box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+                box.Move(Vector2.right * transform.localScale.x, 500f); // Adjust force as needed
+            }
+        }
+    }
+    
+    
 
     void UpdateCounters()
     {

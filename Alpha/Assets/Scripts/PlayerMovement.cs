@@ -60,13 +60,18 @@ public class PlayerMovement : MonoBehaviour
 
         if (canMove)
         {
+            
             HorizontalMovement();
 
             grounded = rigidbody.Raycast(Vector2.down);
-
+            
             if (grounded)
             {
                 GroundedMovement();
+                if (Input.GetKeyDown(KeyCode.E)) // Assuming 'E' is the key to interact
+                {
+                    PushBox();
+                }
             }
 
             ApplyGravity();
@@ -92,11 +97,24 @@ public class PlayerMovement : MonoBehaviour
         // accelerate / decelerate
         inputAxis = Input.GetAxis("Horizontal");
         velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
-
+        
         // check if running into a wall
         if (rigidbody.Raycast(Vector2.right * velocity.x))
         {
             velocity.x = 0f;
+        }
+        
+    }
+    
+    private void PushBox()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, 1f);
+        if (hit.collider != null)
+        {
+            Box box = hit.collider.GetComponent<Box>();
+            
+            box.Move(Vector2.right * transform.localScale.x, 500f); // Adjust force as needed
+            
         }
     }
 
