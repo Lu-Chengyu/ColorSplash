@@ -18866,6 +18866,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RestartCurrentScene
       objectReference: {fileID: 0}
+    - target: {fileID: 6603179435461719274, guid: c30de91e61d74bc408de2ce1a9c81317, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1234229529}
+    - target: {fileID: 6603179435461719274, guid: c30de91e61d74bc408de2ce1a9c81317, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleInstructionScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603179435461719274, guid: c30de91e61d74bc408de2ce1a9c81317, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelUIController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8221788061938454252, guid: c30de91e61d74bc408de2ce1a9c81317, type: 3}
       propertyPath: m_IsActive
       value: 0
