@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 velocity;
     private float inputAxis;
 
+    public GameObject bulletObject;
+    public float bullectSpeed = 5f;
     public float moveSpeed = 5f;
     public float maxJumpHeight = 5f;
     public float maxJumpTime = 1f;
@@ -61,12 +63,16 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
         {
             HorizontalMovement();
-
+            ShootBullet();
             grounded = rigidbody.Raycast(Vector2.down);
 
             if (grounded)
             {
                 GroundedMovement();
+                if (Input.GetKeyDown(KeyCode.E)) // Assuming 'E' is the key to interact
+                {
+                    PushBox();
+                }
             }
 
             ApplyGravity();
@@ -91,7 +97,16 @@ public class PlayerMovement : MonoBehaviour
     {
         // accelerate / decelerate
         inputAxis = Input.GetAxis("Horizontal");
-        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+        if (playerColorChange.GetColorName() == "Green" && Input.GetKeyDown(KeyCode.F))
+        {
+            moveSpeed = 2.0f * moveSpeed;
+            velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+        } 
+        else
+        {
+            velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+        }
+        
 
         // check if running into a wall
         if (rigidbody.Raycast(Vector2.right * velocity.x))
@@ -105,12 +120,37 @@ public class PlayerMovement : MonoBehaviour
         // prevent gravity from infinitly building up
         velocity.y = Mathf.Max(velocity.y, 0f);
         jumping = velocity.y > 0f;
-
+        float jumpBuff = 1f;
         // perform jump
         if (Input.GetButtonDown("Jump"))
         {
-            velocity.y = jumpForce;
+            if (playerColorChange.GetColorName() == "Red" && Input.GetKey(KeyCode.F))
+            {
+                jumpBuff = 1.2f;
+            }
+            velocity.y = jumpForce * jumpBuff;
             jumping = true;
+        }
+    }
+
+    private void ShootBullet()
+    {
+        if (playerColorChange.GetColorName() == "Blue" && Input.GetKeyDown(KeyCode.F))
+        {
+            GameObject bullet = Instantiate(bulletObject, rigidbody.position, Quaternion.identity);
+            BulletController bc = bullet.GetComponent<BulletController>();
+        }
+    }
+
+    private void PushBox()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, 1f);
+        if (hit.collider != null)
+        {
+            Box box = hit.collider.GetComponent<Box>();
+
+            box.Move(Vector2.right * transform.localScale.x, 500f); // Adjust force as needed
+
         }
     }
 
